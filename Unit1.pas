@@ -46,12 +46,12 @@ end;
 
 procedure TForm1.ComboBox1Change(Sender: TObject);
 var
-  myDSound: IDirectSound8;
+  myDSound: IDirectSound;
   capInfo: TDSCaps;
 begin
   ZeroMemory(@capInfo, SizeOf(TDSCaps));
   capInfo.dwSize := SizeOf(TDSCaps);
-  DirectSoundCreate8(@guidArr[ComboBox1.ItemIndex], myDSound, nil);
+  DirectSoundCreate(@guidArr[ComboBox1.ItemIndex], myDSound, nil);
   Caption := GUIDToString(guidArr[ComboBox1.ItemIndex]);
   myDSound.GetCaps(capInfo);
 end;
