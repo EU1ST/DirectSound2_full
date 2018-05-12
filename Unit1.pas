@@ -8,7 +8,7 @@ uses
 
 type
   TForm1 = class(TForm)
-    ComboBox1: TComboBox; //??????
+    ComboBox1: TComboBox;
     procedure FormCreate(Sender: TObject);
     procedure ComboBox1Change(Sender: TObject);
   end;
@@ -48,7 +48,6 @@ procedure TForm1.ComboBox1Change(Sender: TObject);
 var
   myDSound: IDirectSound8;
   capInfo: TDSCaps;
-  p: PDSCaps;
 begin
   ZeroMemory(@capInfo, SizeOf(TDSCaps));
   capInfo.dwSize := SizeOf(TDSCaps);

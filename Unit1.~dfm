@@ -1,7 +1,7 @@
 object Form1: TForm1
   Left = 192
   Top = 107
-  Width = 338
+  Width = 409
   Height = 173
   Caption = 'Form1'
   Color = clBtnFace
@@ -17,7 +17,7 @@ object Form1: TForm1
   object ComboBox1: TComboBox
     Left = 24
     Top = 16
-    Width = 273
+    Width = 353
     Height = 21
     ItemHeight = 13
     TabOrder = 0
