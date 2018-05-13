@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls;
+  Dialogs, StdCtrls, DirectSound;
 
 type
   TForm1 = class(TForm)
@@ -20,10 +20,10 @@ implementation
 
 {$R *.dfm}
 
-uses DirectSound;
-
 var
   guidArr: array of TGUID;
+  DS: IDirectSound;
+  DSGUID: PGUID;
 
 function EnumCallback(lpGuid: PGUID; lpcstrDescription, lpcstrModule: PChar;
     lpContext: Pointer): BOOL; stdcall;
@@ -45,15 +45,18 @@ begin
 end;
 
 procedure TForm1.ComboBox1Change(Sender: TObject);
-var
-  myDSound: IDirectSound;
-  capInfo: TDSCaps;
+//var
+//  DS: IDirectSound;
+//  capInfo: TDSCaps;
+//  DSGUID: PGUID;
 begin
-  ZeroMemory(@capInfo, SizeOf(TDSCaps));
-  capInfo.dwSize := SizeOf(TDSCaps);
-  DirectSoundCreate(@guidArr[ComboBox1.ItemIndex], myDSound, nil);
+//  ZeroMemory(@capInfo, SizeOf(TDSCaps));
+//  capInfo.dwSize := SizeOf(TDSCaps);
+//  DirectSoundCreate(@guidArr[ComboBox1.ItemIndex], DS, nil);
+  DSGUID:= @guidArr[ComboBox1.ItemIndex];
+  DirectSoundCreate(DSGUID, DS, nil);
   Caption := GUIDToString(guidArr[ComboBox1.ItemIndex]);
-  myDSound.GetCaps(capInfo);
+//  DS.GetCaps(capInfo);
 end;
 
 end.
