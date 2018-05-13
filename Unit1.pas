@@ -4,13 +4,18 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, DirectSound;
+  Dialogs, StdCtrls, DirectSound, Registry;
 
 type
   TForm1 = class(TForm)
     ComboBox1: TComboBox;
+    Button1: TButton;
+    Button2: TButton;
+    Label1: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure ComboBox1Change(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
   end;
 
 var
@@ -23,8 +28,7 @@ implementation
 var
   guidArr: array of TGUID;
   DS: IDirectSound;
-  DSGUID: PGUID;
-
+  TDSGUID, RTDSGUID: TGUID;
 function EnumCallback(lpGuid: PGUID; lpcstrDescription, lpcstrModule: PChar;
     lpContext: Pointer): BOOL; stdcall;
 begin
@@ -45,18 +49,36 @@ begin
 end;
 
 procedure TForm1.ComboBox1Change(Sender: TObject);
-//var
-//  DS: IDirectSound;
-//  capInfo: TDSCaps;
-//  DSGUID: PGUID;
+
 begin
-//  ZeroMemory(@capInfo, SizeOf(TDSCaps));
-//  capInfo.dwSize := SizeOf(TDSCaps);
-//  DirectSoundCreate(@guidArr[ComboBox1.ItemIndex], DS, nil);
-  DSGUID:= @guidArr[ComboBox1.ItemIndex];
-  DirectSoundCreate(DSGUID, DS, nil);
+  TDSGUID:= guidArr[ComboBox1.ItemIndex];
+  DirectSoundCreate(@TDSGUID, DS, nil);
   Caption := GUIDToString(guidArr[ComboBox1.ItemIndex]);
-//  DS.GetCaps(capInfo);
+end;
+
+procedure TForm1.Button1Click(Sender: TObject);
+var R: TRegistry;
+begin
+  R := TRegistry.Create;
+  try
+    if not R.OpenKey('Software\AlMaGriNa', True) then
+      RaiseLastOSError;
+    R.WriteBinaryData('SumVAC', TDSGUID, 16);
+  finally R.Free;
+  end;
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+var R: TRegistry;
+begin
+  R := TRegistry.Create;
+  try
+    if not R.OpenKey('Software\AlMaGriNa', True) then
+      RaiseLastOSError;
+    R.ReadBinaryData('SumVAC', TDSGUID, 16);
+    Label1.Caption:= GUIDToString(TDSGUID);
+  finally R.Free;
+  end;
 end;
 
 end.
